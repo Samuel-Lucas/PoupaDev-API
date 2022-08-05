@@ -1,12 +1,15 @@
+using Microsoft.EntityFrameworkCore;
 using PoupaDev.API.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
-builder.Services.AddSingleton<PoupaDevContext>();
-
 builder.Services.AddControllers();
+
+var connectionString = builder.Configuration.GetConnectionString("PoupaDevCs");
+
+builder.Services.AddDbContext<PoupaDevContext>(o => o.UseSqlServer(connectionString));
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
